@@ -22,13 +22,15 @@ const Vandetail = () => {
         getVan()
     }, [params.id])
 
-    console.log(ourVan)
+   
 
   return (
     <div className='bg-[#FFF7ED] px-10 flex flex-col gap-9 py-16'> 
     <div className='flex gap-3 items-center'>
-    <FontAwesomeIcon icon={faArrowLeft} />
-        <Link>Back to all vans</Link>
+    <Link to=".." relative="path" className="flex items-center gap-4 ">
+          <FontAwesomeIcon icon={faArrowLeft} className="" />{" "}
+          <span>Back to all vans</span>
+        </Link>
         </div>
         {
             ourVan? (

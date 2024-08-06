@@ -13,7 +13,7 @@ const HostVans = () => {
   console.log(vans);
 
   const hostVanEls = vans.map((van) => (
-    <Link to={`/host/vans/${van.id}`} key={van.id}>
+    <Link to={van.id} key={van.id}>
       <div className="flex items-center justify-between bg-white px-9 py-7 rounded-lg ">
         <div className=" flex  gap-7">
           <img
