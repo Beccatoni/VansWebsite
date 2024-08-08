@@ -1,26 +1,44 @@
 import { data } from "autoprefixer";
 import React, { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useLoaderData } from "react-router-dom";
 import Card from "../../components/Card.jsx";
+import { getVans } from "../../Api.js";
+
+
+export function laoder(){
+  return getVans()
+  
+}
+
 
 const Vanlist = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-
+   
+  // loader data
+  const vanData = useLoaderData()
+  console.log("Loading data", data)
   const typeFilter = searchParams.get("type");
-  console.log(typeFilter);
-  const [vanData, setVanData] = useState([]);
 
+  console.log(typeFilter);
+  // const [vanData, setVanData] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const navItems = ["Simple", "Luxury", "Rugged"];
 
-  useEffect(() => {
-    const vansList = async () => {
-      const res = await fetch("/api/vans");
-      const data = await res.json();
-
-      setVanData(data.vans);
-    };
-    vansList();
-  }, []);
+  // useEffect(() => {
+  //   async function vansList() {
+  //     setLoading(true);
+  //     try {
+  //       const data = await getVans();
+  //       setVanData(data);
+  //     } catch (error) {
+  //       setError(error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
+  //   vansList();
+  // }, []);
 
   //
   // console.log('Here is the vans data:', vanData[0])
@@ -34,6 +52,7 @@ const Vanlist = () => {
       <div key={van.id}>
         <Link
           to={van.id}
+          state={{ search: `?${searchParams.toString()}`, type: typeFilter }}
           aria-label={`View details for ${van.name}, 
                              priced at $${van.price} per day`}
         >
@@ -49,35 +68,38 @@ const Vanlist = () => {
     );
   });
 
-
-  
-
   const navButtons = navItems.map((item, index) => {
-    let background = ''
-    if(item.toLowerCase() === 'simple' ){
-      background = 'bg-[#E17654] text-white '
-    }else if(item.toLowerCase() === 'luxury'){
-      background = 'bg-[#161616] text-white'
-    } else if(item.toLowerCase() === 'rugged'){
-      background = 'bg-[#115E59] text-white'
-    } else{
-      background = ''
+    let background = "";
+    if (item.toLowerCase() === "simple") {
+      background = "bg-[#E17654] text-white ";
+    } else if (item.toLowerCase() === "luxury") {
+      background = "bg-[#161616] text-white";
+    } else if (item.toLowerCase() === "rugged") {
+      background = "bg-[#115E59] text-white";
+    } else {
+      background = "";
     }
 
     return (
       <button
         onClick={() => setSearchParams({ type: item.toLowerCase() })}
         key={index}
-        className={`${typeFilter === item.toLowerCase()? background: 'bg-[#FFEAD0] ' } w-[9rem] h-[2.7rem] rounded-md text-center py-2`}
+        className={`${
+          typeFilter === item.toLowerCase() ? background : "bg-[#FFEAD0] "
+        } w-[9rem] h-[2.7rem] rounded-md text-center py-2`}
       >
         {item}
       </button>
     );
   });
 
+  // if (loading) {
+  //   return <h1 arial-alive="polite">Loading...</h1>;
+  // }
 
- 
-
+  if(error){
+      return <h1 arial-alive="assert">There was an erro: {error.message}</h1>
+  }
   return (
     <div className="bg-[#FFF7ED] w-full h-screen px-7 flex flex-col gap-8">
       <h1 className="text-4xl font-bold ">Explore our van options</h1>

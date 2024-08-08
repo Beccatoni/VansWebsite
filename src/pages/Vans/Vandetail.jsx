@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft'
 
@@ -9,9 +9,13 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft'
 
 const Vandetail = () => {
     const params = useParams()
+
+    const location = useLocation()
+    console.log(location.state);
+    
     const [ourVan, setOurVan] = useState(null)
     
-    console.log(params)
+    // console.log(params)
 
     useEffect(()=>{
         const getVan = async() => {
@@ -22,14 +26,15 @@ const Vandetail = () => {
         getVan()
     }, [params.id])
 
-   
+   const search = location.state?.search || ""
+   const type = location.state?.type || "all"
 
   return (
     <div className='bg-[#FFF7ED] px-10 flex flex-col gap-9 py-16'> 
     <div className='flex gap-3 items-center'>
-    <Link to=".." relative="path" className="flex items-center gap-4 ">
-          <FontAwesomeIcon icon={faArrowLeft} className="" />{" "}
-          <span>Back to all vans</span>
+    <Link to={`..${search}`} relative="path" className="flex items-center gap-4 ">
+          <FontAwesomeIcon icon={faArrowLeft} className="" />
+          <span>Back to {type} vans</span>
         </Link>
         </div>
         {

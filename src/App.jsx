@@ -1,9 +1,9 @@
 import { useState } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Route, RouterProvider, createRoutesFromElements, createBrowserRouter } from "react-router-dom";
 import About from "./pages/About.jsx";
 import Home from "./pages/Home.jsx";
-import Vanlist from "./pages/Vans/Vanlist.jsx";
+import Vanlist, {laoder as vansLoader} from "./pages/Vans/Vanlist.jsx";
 import "./mirageServerJs.js";
 import Vandetail from "./pages/Vans/Vandetail.jsx";
 import Layout from "./components/Layout.jsx";
@@ -16,6 +16,8 @@ import HostVanDetail from "./pages/Host/HostVanDetail.jsx";
 import HostVanPricing from "./pages/Host/HostVanPricing.jsx";
 import HostVanPhotos from "./pages/Host/HostVanPhotos.jsx";
 import HostVanInfo from "./pages/Host/HostVanInfo.jsx"
+import NotFound from "./pages/NotFound.jsx";
+import ErrorComp from "./components/ErrorComp.jsx";
 
 // if (process.env.NODE_ENV === 'development') {
 //   // Run development-specific code
@@ -25,18 +27,12 @@ import HostVanInfo from "./pages/Host/HostVanInfo.jsx"
 //   // Run production or other environment code
 //   console.log('Production mode');
 // }
-
-function App() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Layout />}>
+const router = createBrowserRouter(createRoutesFromElements(
+  <Route path="/" element={<Layout />} >
+          <Route path="*" element={<NotFound/>}/>
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
-            <Route path="vans" element={<Vanlist />} />
+            <Route path="vans" errorElement={<ErrorComp/>} loader={vansLoader}  element={<Vanlist />} />
             <Route path="vans/:id" element={<Vandetail />} />
 
             <Route path="host" element={<Hostlayout />}>
@@ -52,8 +48,14 @@ function App() {
               
             </Route>
           </Route>
-        </Routes>
-      </Router>
+))
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <>
+     <RouterProvider router={router}/>
     </>
   );
 }
