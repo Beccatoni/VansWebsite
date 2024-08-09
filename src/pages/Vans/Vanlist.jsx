@@ -5,7 +5,7 @@ import Card from "../../components/Card.jsx";
 import { getVans } from "../../Api.js";
 
 
-export function laoder(){
+export function loader(){
   return getVans()
   
 }
@@ -16,10 +16,10 @@ const Vanlist = () => {
    
   // loader data
   const vanData = useLoaderData()
-  console.log("Loading data", data)
+ 
   const typeFilter = searchParams.get("type");
 
-  console.log(typeFilter);
+  
   // const [vanData, setVanData] = useState([]);
   // const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
