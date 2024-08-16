@@ -25,13 +25,14 @@ import NotFound from "./pages/NotFound";
 import ErrorComp from "./components/ErrorComp";
 import Login from "./components/Login";
 import { requireAuth } from "./utils.js";
+import {loader as loginLoader} from './components/Login.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
       <Route path="about" element={<About />} />
-      <Route path="login" element={<Login />} />
+      <Route path="login" loader={loginLoader} element={<Login />} />
       <Route
         path="vans"
         errorElement={<ErrorComp />}
@@ -48,7 +49,7 @@ const router = createBrowserRouter(
             await requireAuth()
             return null;
           }}
-          // errorElement={<ErrorComp />}
+          errorElement={<ErrorComp />}
         />
         <Route
           path="income"
