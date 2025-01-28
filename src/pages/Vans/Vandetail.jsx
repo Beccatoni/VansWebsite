@@ -3,6 +3,7 @@ import { Link, useParams, useLocation, useLoaderData } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
 import { getVans } from "../../Api";
+import { createBrowserHistory } from "history";
 
 export function loaderVanDetail({ params }) {
   return getVans(params.id);
@@ -14,6 +15,9 @@ const Vandetail = () => {
 
   const location = useLocation();
   const vanDetailData = useLoaderData();
+  const history = createBrowserHistory();
+  history.
+  console.log(history)
   // console.log(vanDetailData);
 
   // const [vanDetailData, setOurVan] = useState(null)
@@ -30,6 +34,7 @@ const Vandetail = () => {
   // }, [params.id])
 
   const search = location.state?.search || "";
+  console.log('Here is the search:',search)
   const type = location.state?.type || "all";
 
   return (

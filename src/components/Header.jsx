@@ -1,8 +1,19 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, redirect, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+
+
+
 const Header = () => {
+const navigate = useNavigate()
+
+  function fakeLogOut(){
+    localStorage.removeItem("loggedin")
+   navigate("/login", {replace:true})
+  }
+
+
   return (
     <div>
       <header className="flex justify-between items-center px-10 py-8 bg-[#FFF7ED]">
@@ -35,6 +46,8 @@ const Header = () => {
             Vans
           </NavLink>
           <NavLink to="/login"><FontAwesomeIcon icon={faUser}/></NavLink>
+
+          <button onClick={fakeLogOut}>X</button>
         </nav>
       </header>
     </div>

@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -8,8 +6,8 @@ import { getHostVans } from "../../Api";
 import { requireAuth } from "../../utils";
 
 
-export async function loader({params}) {
-  // await requireAuth();
+export async function loader({params, request}) {
+  await requireAuth(request);
   return getHostVans(params.id);
 }
 

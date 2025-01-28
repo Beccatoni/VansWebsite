@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./App.css";
 import {
   Route,
@@ -17,7 +16,9 @@ import Income from "./pages/Host/Income";
 import Reviews from "./pages/Host/Reviews";
 import Hostlayout from "./components/Hostlayout";
 import HostVans, { hostVanLoader } from "./pages/Host/HostVans";
-import HostVanDetail, {loader as hostVanDetailLoader} from "./pages/Host/HostVanDetail";
+import HostVanDetail, {
+  loader as hostVanDetailLoader,
+} from "./pages/Host/HostVanDetail";
 import HostVanPricing from "./pages/Host/HostVanPricing";
 import HostVanPhotos from "./pages/Host/HostVanPhotos";
 import HostVanInfo from "./pages/Host/HostVanInfo";
@@ -25,14 +26,24 @@ import NotFound from "./pages/NotFound";
 import ErrorComp from "./components/ErrorComp";
 import Login from "./components/Login";
 import { requireAuth } from "./utils.js";
-import {loader as loginLoader} from './components/Login.jsx'
+import {
+  loader as loginLoader,
+  action as loginAction,
+} from "./components/Login.jsx";
+
+// localStorage.removeItem("loggedin")
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
       <Route path="about" element={<About />} />
-      <Route path="login" loader={loginLoader} element={<Login />} />
+      <Route
+        path="login"
+        action={loginAction}
+        loader={loginLoader}
+        element={<Login />}
+      />
       <Route
         path="vans"
         errorElement={<ErrorComp />}
@@ -45,8 +56,8 @@ const router = createBrowserRouter(
         <Route
           index
           element={<Dashboard />}
-          loader={async () => {
-            await requireAuth()
+          loader={async ({ request }) => {
+            await requireAuth(request);
             return null;
           }}
           errorElement={<ErrorComp />}
@@ -54,16 +65,16 @@ const router = createBrowserRouter(
         <Route
           path="income"
           element={<Income />}
-          loader={async () => {
-            await requireAuth()
+          loader={async ({ request }) => {
+            await requireAuth(request);
             return null;
           }}
         />
         <Route
           path="reviews"
           element={<Reviews />}
-          loader={async () => {
-            await requireAuth()
+          loader={async ({ request }) => {
+            await requireAuth(request);
             return null;
           }}
         />
@@ -102,8 +113,6 @@ const router = createBrowserRouter(
 );
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <RouterProvider router={router} />

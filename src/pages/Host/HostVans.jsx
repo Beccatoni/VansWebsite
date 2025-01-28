@@ -3,9 +3,12 @@ import { Link, useLoaderData } from "react-router-dom";
 import { getHostVans } from "../../Api";
 import { requireAuth } from "../../utils";
 
-export async function hostVanLoader() {
+
+
+
+export async function hostVanLoader({request}) {
   try {
-    await requireAuth(); // Assuming this handles authentication correctly
+    await requireAuth(request); // Assuming this handles authentication correctly
     const data = await getHostVans();
     return data || []; // Return data or an empty array if data is falsy
   } catch (error) {
